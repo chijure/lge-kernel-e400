@@ -636,7 +636,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 			},
 		},
 		.init_level = 0,
-		.num_levels = 2,
+		.num_levels = 4,
 		.set_grp_async = set_grp_xbar_async,
 		.idle_timeout = HZ/5,
 		.nap_allowed = false,
@@ -667,10 +667,21 @@ struct platform_device msm_kgsl_3d0 = {
 void __init msm7x25a_kgsl_3d0_init(void)
 {
 	if (cpu_is_msm7x25a() || cpu_is_msm7x25aa()) {
+#ifdef CONFIG_MSM7X27A_GPU_OVERCLOCK
+		kgsl_3d0_pdata.pwr_data.num_levels = 3;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[0].gpu_freq = 133330000;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[0].bus_freq = 160000000;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[1].gpu_freq = 192000000;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[1].bus_freq = 160000000;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[2].gpu_freq = 96000000;
+                kgsl_3d0_pdata.pwr_data.pwrlevel[2].bus_freq = 0;
+#else
+		kgsl_3d0_pdata.pwr_data.num_levels = 2;
 		kgsl_3d0_pdata.pwr_data.pwrlevel[0].gpu_freq = 133330000;
 		kgsl_3d0_pdata.pwr_data.pwrlevel[0].bus_freq = 160000000;
 		kgsl_3d0_pdata.pwr_data.pwrlevel[1].gpu_freq = 96000000;;
 		kgsl_3d0_pdata.pwr_data.pwrlevel[1].bus_freq = 0;
+#endif
 	}
 }
 

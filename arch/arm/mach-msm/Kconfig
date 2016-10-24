@@ -1162,6 +1162,13 @@ config MSM7X27A_OVERCLOCK
 	help
 	  Enable support for non-standard msm7x27A acpuclock frequencies/voltages.
 
+config MSM7X27A_GPU_OVERCLOCK
+	bool "Enable SoC GPU OverClocking for MSM7x27A"
+	depends on ARCH_MSM7X27A
+	default n
+	help
+	  Enable support for non-standard msm7x27A gpu frequencies.
+
 endif # CPU_FREQ_MSM
 
 config MSM_CPU_AVS
